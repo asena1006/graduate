@@ -10,7 +10,6 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             user_id = user_id,
-            password = password,
             nick_name = nick_name,
             email = email,
             student_num = student_num,
@@ -30,10 +29,9 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     user_id = models.CharField(max_length=18 , verbose_name='아이디', unique=True)
-    password = models.CharField(max_length=30, verbose_name='비밀번호')
-    nick_name = models.CharField(max_length=10, verbose_name='닉네임', null=True)
+    nick_name = models.CharField(max_length=10, verbose_name='닉네임', unique=True, null=True)
     email = models.EmailField(verbose_name='이메일', max_length=128, unique=True, null=True)
-    student_num = models.IntegerField(verbose_name='학번', null=True)
+    student_num = models.IntegerField(verbose_name='학번', unique=True, null=True)
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name='가입일자', null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
