@@ -1,10 +1,7 @@
-
-
-    <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <table>
-            {{ form }}
-        </table>
-        <button type="submit">회원가입</button>
-
-    </form>
+{% extends "users/layout.html" %} {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 offset-sm-3">{% include "form.html" %}</div>
+  </div>
+</div>
+{% endblock %}
