@@ -1,7 +1,11 @@
+from django.conf import settings
+from django.core.mail import send_mail
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from django.template.loader import render_to_string
+
 
 class UserManager(BaseUserManager):
     def create_user(self, user_id, password, nick_name, email, student_num, date_joined):
@@ -31,7 +35,7 @@ class User(AbstractBaseUser):
     user_id = models.CharField(max_length=18 , verbose_name='아이디', unique=True)
     nick_name = models.CharField(max_length=10, verbose_name='닉네임', unique=True, null=True)
     email = models.EmailField(verbose_name='이메일', max_length=128, unique=True, null=True)
-    student_num = models.IntegerField(verbose_name='학번', unique=True, null=True)
+    student_num = models.IntegerField(verbose_name='학번', null=True)
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name='가입일자', null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -40,6 +44,16 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = 'user_id'
     REQUIRED_FIELDS = ['email']
+
+    def send_email(self):
+        title = render_to_string("users/send_email_title.txt", {
+            "user" : self,
+        })
+        content = render_to_string("users/send_email_content.txt", {
+            "user" : self,
+        })
+        sender_email = settings.EMAIL_SENDER
+        send_mail(title, content, sender_email, [self.email], fail_silently=False)
 
     def __str__(self):
         return self.email
