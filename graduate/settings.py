@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     #장고 앱
     'users',
+    'selling',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +138,6 @@ EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_SENDER = "danny001006@naver.com"
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/users/login'

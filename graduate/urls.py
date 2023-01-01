@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='root.html'), name='root'),
     path('users/', include('users.urls')),
+    path('', include('selling.urls')),
 ]
 
 if settings.DEBUG:
